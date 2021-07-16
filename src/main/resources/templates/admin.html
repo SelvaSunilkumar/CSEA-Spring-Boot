@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+
+    <head th:replace="common/header :: header"></head>
+    <style th:replace="common/header :: styles"></style>
+    <body>
+        <div th:replace="common/header :: navbar"/>
+
+        <div class="container">
+            <button type="button" class="btn btn-sm csea-bg text-light" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                Manage Admin
+            </button>
+        </div>
+
+
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">New Admin</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="username" placeholder="ex : sunilkumars2028">
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" placeholder="ex : CSEA2021Sunil">
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirmPassword" class="form-label">Confirm Password</label>
+                            <input type="password" class="form-control" id="confirmPassword" placeholder="re-enter the password">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-sm csea-bg text-light" onclick="addAdmin()">Save Changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </body>
+    <script>
+
+        function _(el) {
+            return document.getElementById(el);
+        }
+
+        function isEmpty(str) {
+            return str.length == 0 || str == "";
+        }
+
+        function addAdmin() {
+            var username = _("username").value;
+            var password = _("password").value;
+            var confirmPassword = _("confirmPassword").value;
+
+            if (isEmpty(username) || isEmpty(password) || isEmpty(confirmPassword)) {
+                console.log("fail");
+            } else {
+                var adminDetails = {"username" : username};
+                $.ajax({
+                    url : "http://localhost:8080/api/v1/admin/add",
+                    type : "POST",
+                    data : JSON.stringify(adminDetails),
+                    async : false,
+                    contentType: 'application/json',
+                    beforeSend:function() {
+                        console.log("Called");
+                    },
+                    success:function(data) {
+                        console.log(data);
+                    },error:function() {    
+                        console.error("Error occured");
+                    }
+                });
+            }
+        }
+
+    </script>
+</html>
