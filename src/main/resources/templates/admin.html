@@ -53,6 +53,30 @@
             return str.length == 0 || str == "";
         }
 
+        function printConsole(data) {
+            console.log(data);
+        }
+
+        function operationStatus(status) {
+            switch(status) {
+                case 404:
+                    printConsole("Username already taken");
+                    break;
+                case 107:
+                    printConsole("Failed");
+                    break;
+                case 200:
+                    printConsole("ok");
+                    break;
+                case 301:
+                    printConsole("Special characters are not allowed. Including space");
+                    break;
+                default:
+                    printConsole("Error Unknown");
+                    break;
+            }
+        }
+
         function addAdmin() {
             var username = _("username").value;
             var password = _("password").value;
@@ -61,22 +85,26 @@
             if (isEmpty(username) || isEmpty(password) || isEmpty(confirmPassword)) {
                 console.log("fail");
             } else {
-                var adminDetails = {"username" : username};
-                $.ajax({
-                    url : "http://localhost:8080/api/v1/admin/add",
-                    type : "POST",
-                    data : JSON.stringify(adminDetails),
-                    async : false,
-                    contentType: 'application/json',
-                    beforeSend:function() {
-                        console.log("Called");
-                    },
-                    success:function(data) {
-                        console.log(data);
-                    },error:function() {    
-                        console.error("Error occured");
-                    }
-                });
+                if (password == confirmPassword) {
+                    var adminDetails = {"username" : username, "password" : password};
+                    $.ajax({
+                        url : "http://localhost:8080/api/v1/admin/add",
+                        type : "POST",
+                        data : JSON.stringify(adminDetails),
+                        async : false,
+                        contentType: 'application/json',
+                        beforeSend:function() {
+                            console.log("Called");
+                        },
+                        success:function(data) {
+                            operationStatus(data);
+                        },error:function() {    
+                            console.error("Error occured");
+                        }
+                    });
+                } else {
+                    console.error("Mismatched password");
+                }
             }
         }
 

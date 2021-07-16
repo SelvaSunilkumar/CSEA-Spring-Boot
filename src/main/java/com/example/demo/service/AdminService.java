@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 @Service
 public class AdminService {
 
@@ -14,6 +17,13 @@ public class AdminService {
     @Autowired
     public AdminService(@Qualifier("adminAuth") AdminOperation adminOperation) {
         this.adminOperation = adminOperation;
+    }
+
+    public boolean isValidString(String input) {
+        Pattern pattern = Pattern.compile("[^a-zA-Z0-9]");
+        Matcher matcher = pattern.matcher(input);
+        boolean doContainSpecialCharacter = matcher.find();
+        return doContainSpecialCharacter;
     }
 
     public int addAdmin(AdminDetails adminDetails) {

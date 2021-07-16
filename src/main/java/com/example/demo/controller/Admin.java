@@ -20,6 +20,10 @@ public class Admin {
 
     @PostMapping("add")
     public int addAdmin(@RequestBody AdminDetails adminDetails) {
+        if (adminService.isValidString(adminDetails.getUsername()) || adminService.isValidString(adminDetails.getPassword()))  {
+            //Error 301 : Special Character found in the string
+            return 301;
+        }
         return adminService.addAdmin(adminDetails);
     }
 

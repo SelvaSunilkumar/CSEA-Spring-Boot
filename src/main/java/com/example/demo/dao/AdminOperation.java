@@ -14,4 +14,6 @@ public interface AdminOperation {
         return addAdmin(id, adminDetails);
     }
 
+    String encryptPassword(String password);
+
 }
