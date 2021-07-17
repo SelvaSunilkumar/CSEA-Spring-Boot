@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.UUID;
 
 @Repository("adminAuth")
@@ -54,5 +55,10 @@ public class AdminOperationImplementer implements AdminOperation {
             e.printStackTrace();
             return null;
         }
+    }
+
+    @Override
+    public List<AdminDetails> getAllAdmins() {
+        return  repo.findAll();
     }
 }

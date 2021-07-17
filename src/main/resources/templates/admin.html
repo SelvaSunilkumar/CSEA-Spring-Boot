@@ -10,6 +10,20 @@
             <button type="button" class="btn btn-sm csea-bg text-light" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                 Manage Admin
             </button>
+            <hr>
+            <h5>All Admins</h5>
+            <p id="loader">fetching...</p>
+            <table class="table table-dark table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Username</th>
+                    </tr>
+                </thead>
+                <tbody id="listAdmins">
+
+                </tbody>
+            </table>
         </div>
 
 
@@ -47,6 +61,36 @@
 
         function _(el) {
             return document.getElementById(el);
+        }
+
+        function getAdminDetails() {
+            $.ajax({
+                url: "/api/v1/admin/all",
+                type: "GET",
+                async: false,
+                beforeSend: function() {
+                    _("loader").style.display = "block";
+                }, success:function(data) {
+                    _("loader").style.display = "none";
+
+                    console.log(data);
+
+                    var adminNames = data
+                    var adminData = "";
+                    for (let i in adminNames) {
+                        adminData += "<tr><td> " + (parseInt(i) + 1) + " </td><td>"+ adminNames[i].name +"</td></tr>";
+                    }
+
+                    _("listAdmins").innerHTML = adminData;
+
+                }, error:function() {
+                    console.error("Error occured");
+                }
+            });
+        }
+
+        onload = function() {
+            getAdminDetails();
         }
 
         function isEmpty(str) {

@@ -44,7 +44,7 @@
     <div th:fragment="navbar">
         <nav class="navbar navbar-success csea-bg">
             <div class="container">
-                <a class="navbar-brand text-light mr-4" href=""><img src="TCE.png" width="65"> CSEA</a>
+                <a class="navbar-brand text-light mr-4" href=""><img src="/TCE.png" width="65"> CSEA</a>
             </div>
         </nav>
 
@@ -54,7 +54,8 @@
                 <a href="manage-admin" th:if="${access} != 1" class="nav-link csea-text" aria-current="page">Manage Admin</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link csea-text" href="a">Registration</a>
+                <a href="registration" th:if="${access} == 2" class="nav-link csea-text bottom-u" aria-current="page">Registration</a>
+                <a href="registration" th:if="${access} != 2" class="nav-link csea-text" aria-current="page">Registration</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link csea-text" href="b">Certificate</a>

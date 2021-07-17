@@ -2,6 +2,7 @@ package com.example.demo.dao;
 
 import com.example.demo.modal.AdminDetails;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface AdminOperation {
@@ -15,5 +16,7 @@ public interface AdminOperation {
     }
 
     String encryptPassword(String password);
+
+    List<AdminDetails> getAllAdmins();
 
 }

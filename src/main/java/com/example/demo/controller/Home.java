@@ -21,4 +21,10 @@ public class Home {
         return "admin";
     }
 
+    @GetMapping("/registration")
+    public String registration(Model model) {
+        model.addAttribute("access", 2);
+        return "adminRegistration";
+    }
+
 }
