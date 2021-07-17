@@ -1,6 +1,7 @@
 package com.example.demo.dao;
 
 import com.example.demo.modal.AdminDetails;
+import com.example.demo.modal.Events;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -15,6 +16,9 @@ public class AdminOperationImplementer implements AdminOperation {
 
     @Autowired
     AdminDao repo;
+
+    @Autowired
+    EventsDao erepo;
 
     @Override
     public int addAdmin(UUID uuid, AdminDetails adminDetails) {
@@ -41,6 +45,21 @@ public class AdminOperationImplementer implements AdminOperation {
     }
 
     @Override
+    public int addEvent(UUID uuid, Events events) {
+        if (uuid == null) {
+            events.setId(UUID.randomUUID().toString());
+        }
+        if (erepo.isEventAvailable(events.getName()) > 0) {
+            return 404;
+        }
+        erepo.save(events);
+        if (erepo.isEventAvailable(events.getName()) > 0) {
+            return 200;
+        }
+        return 107;
+    }
+
+    @Override
     public String encryptPassword(String password) {
         try {
             MessageDigest messageDigest = MessageDigest.getInstance("SHA-1");
@@ -60,5 +79,10 @@ public class AdminOperationImplementer implements AdminOperation {
     @Override
     public List<AdminDetails> getAllAdmins() {
         return  repo.findAll();
+    }
+
+    @Override
+    public List<Events> getAllEvents() {
+        return erepo.findAll();
     }
 }

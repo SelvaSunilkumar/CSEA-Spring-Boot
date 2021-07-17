@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.modal.AdminCustomDetails;
 import com.example.demo.modal.AdminDetails;
+import com.example.demo.modal.Events;
 import com.example.demo.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -37,6 +38,24 @@ public class Admin {
             customDetails.add(new AdminCustomDetails(adminDetails.get(index).getUsername()));
         }
         return customDetails;
+    }
+
+    @PostMapping("addEvent")
+    public int addEvent(@RequestBody Events events) {
+        if (adminService.isValidEventString(events.getName())) {
+            return 301;
+        }
+        return adminService.addEvent(events);
+    }
+
+    @GetMapping("allEvents")
+    public List<Events> getAllEvents() {
+        return adminService.getAllEvents();
+    }
+
+    @GetMapping("registration/{id}")
+    public String getCustom(@PathVariable("id") String eventId) {
+        return eventId;
     }
 
 }

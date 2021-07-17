@@ -1,8 +1,68 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head th:replace="common/header :: header"></head>
-<style th:replace="common/header :: styles"></style>
-<body>
-    <div th:replace="common/header :: navbar"></div>
-</body>
+
+    <head th:replace="common/header :: header"></head>
+    <style th:replace="common/header :: styles"></style>
+    <body>
+        <div th:replace="common/header :: navbar"></div>
+
+        <div class="container">
+            <button type="button" class="btn btn-sm csea-bg text-light" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                Manage Events
+            </button>
+            <hr>
+            <h5>All events</h5>
+            <div class="row" id="eventData">
+                <div class="col-md-3" style="margin-top: 10px;">
+                    <div class="card shadow-sm">
+                        <div class="card-body fw-bolder csea-text align-items-center d-flex justify-content-center" style="height: 100px;">
+                            Event Name
+                        </div>
+                        <div class="card-footer bg-transparent text-end form-inline">
+                            <a class="btn"><i class="fa fa-cog fa-1x"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">New Events</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="eventName" class="form-label">Event Name</label>
+                            <input type="text" class="form-control" id="eventName" placeholder="ex : sunilkumars2028">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-sm csea-bg text-light" onclick="addEvent()">Save Changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </body>
+
+    <script>
+
+        function _(el) {
+            return document.getElementById(el);
+        } 
+
+        function isEmpty(input) {
+            return input == "" || input.length() == 0;
+        }
+
+        function addEvent() {
+            var eventName = _("eventName").value;
+            //continue from here
+        }
+
+    </script>
 </html>

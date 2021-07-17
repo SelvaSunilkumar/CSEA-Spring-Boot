@@ -1,6 +1,7 @@
 package com.example.demo.dao;
 
 import com.example.demo.modal.AdminDetails;
+import com.example.demo.modal.Events;
 
 import java.util.List;
 import java.util.UUID;
@@ -15,8 +16,18 @@ public interface AdminOperation {
         return addAdmin(id, adminDetails);
     }
 
+    int addEvent(UUID uuid, Events events);
+
+    default int addEvent(Events events) {
+        UUID id = UUID.randomUUID();
+        events.setId(id.toString());
+        return addEvent(id, events);
+    }
+
     String encryptPassword(String password);
 
     List<AdminDetails> getAllAdmins();
+
+    List<Events> getAllEvents();
 
 }
