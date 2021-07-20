@@ -7,11 +7,21 @@
         <div th:replace="common/header :: navbar"></div>
 
         <div class="container">
-            <button type="button" class="btn btn-sm csea-bg text-light" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                Manage Events
-            </button>
+            <div class="row">
+                <div class="col text-start">
+                    <button type="button" class="btn btn-sm csea-bg text-light" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                        Manage Events
+                    </button>
+                </div>
+                <div class="col text-end">
+                    <button class="btn btn-sm" onclick="getEventDetails()">
+                        <i class="fa fa-refresh"></i>
+                    </button>
+                </div>
+            </div>
             <hr>
             <h5>All events</h5>
+            <p id="loader">fetching...</p>
             <div class="row" id="eventData">
                 <div class="col-md-3" style="margin-top: 10px;">
                     <div class="card shadow-sm">
@@ -51,17 +61,92 @@
 
     <script>
 
+        onload = function() {
+            getEventDetails();
+        }
+
         function _(el) {
             return document.getElementById(el);
         } 
 
         function isEmpty(input) {
-            return input == "" || input.length() == 0;
+            return input == "" || input.length == 0;
+        }
+
+        function printConsole(data) {
+            console.log(data);
+        }
+
+        function getEventDetails() {
+            $.ajax({
+                url: "/api/v1/admin/allEvents",
+                type: "GET",
+                async: false,
+                beforeSend: function() {
+                    _("loader").style.display = "block";
+                }, success:function(data) {
+                    _("loader").style.display = "none";
+
+                    console.log(data);
+
+                    var eventNames = data;
+                    var eventData = '';
+                    for (let i in eventNames) {
+                        eventData += '<div class="col-md-3" style="margin-top: 10px;"><div class="card shadow-sm"><div class="card-body fw-bolder csea-text align-items-center d-flex justify-content-center" style="height: 100px;">' + eventNames[i].name + '</div><div class="card-footer bg-transparent text-end form-inline"><a class="btn" href="/api/v1/admin/registration/' + eventNames[i].url + '"><i class="fa fa-cog fa-1x"></i></a></div></div></div>';
+                    }
+
+                    _("eventData").innerHTML = eventData;
+
+                }, error:function() {
+                    console.error("Error occured");
+                }
+            });
+        }
+
+        function operationStatus(status) {
+            switch(status) {
+                case 404:
+                    printConsole("Username already taken");
+                    break;
+                case 107:
+                    printConsole("Failed");
+                    break;
+                case 200:
+                    printConsole("ok");
+                    getEventDetails();
+                    break;
+                case 301:
+                    printConsole("Special characters are not allowed. Including space");
+                    break;
+                default:
+                    printConsole("Error Unknown");
+                    break;
+            }
         }
 
         function addEvent() {
             var eventName = _("eventName").value;
-            //continue from here
+        
+            if (isEmpty(eventName)) {
+                console.error("Missing mandatory fields");
+            } else {
+                var eventDetails = {"name" : eventName};
+                $.ajax({
+                    url : "http://localhost:8080/api/v1/admin/addEvent",
+                    type : "POST",
+                    data : JSON.stringify(eventDetails),
+                    async : false,
+                    contentType: 'application/json',
+                    beforeSend:function() {
+                        console.log("Called");
+                    },
+                    success:function(data) {
+                        operationStatus(data);
+                    },error:function() {    
+                        console.error("Error occured");
+                    }
+                });
+            }
         }
 
     </script>

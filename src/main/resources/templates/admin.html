@@ -7,9 +7,19 @@
         <div th:replace="common/header :: navbar"/>
 
         <div class="container">
-            <button type="button" class="btn btn-sm csea-bg text-light" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                Manage Admin
-            </button>
+            <div class="row">
+                <div class="col text-start">
+                    <button type="button" class="btn btn-sm csea-bg text-light" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                        Manage Admin
+                    </button>
+                </div>
+                <div class="col text-end">
+                    <button class="btn btn-sm" onclick="getAdminDetails()">
+                        <i class="fa fa-refresh"></i>
+                    </button>
+                </div>
+            </div>
+            
             <hr>
             <h5>All Admins</h5>
             <p id="loader">fetching...</p>

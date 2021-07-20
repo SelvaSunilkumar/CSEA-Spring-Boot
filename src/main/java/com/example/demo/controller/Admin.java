@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.modal.AdminCustomDetails;
 import com.example.demo.modal.AdminDetails;
 import com.example.demo.modal.Events;
+import com.example.demo.modal.EventsURLDetails;
 import com.example.demo.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -49,13 +50,22 @@ public class Admin {
     }
 
     @GetMapping("allEvents")
-    public List<Events> getAllEvents() {
-        return adminService.getAllEvents();
+    public List<EventsURLDetails> getAllEvents() {
+        List<EventsURLDetails> urlDetails = new ArrayList<>();
+        List<Events> events = adminService.getAllEvents();
+
+        for (int i=0; i<events.size(); i++) {
+            Events eventDetails = events.get(i);
+            String url = eventDetails.getName();
+            url = url.replace(' ','-');
+            urlDetails.add(new EventsURLDetails(eventDetails.getId(), eventDetails.getName(), url));
+        }
+        return urlDetails;
     }
 
     @GetMapping("registration/{id}")
     public String getCustom(@PathVariable("id") String eventId) {
-        return eventId;
+        return eventId.replace('-', ' ');
     }
 
 }
