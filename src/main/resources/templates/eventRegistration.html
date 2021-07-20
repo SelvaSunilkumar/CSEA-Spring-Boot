@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+    <head th:replace="common/header :: header">
+        <meta charset="UTF-8">
+    </head>
+    <style th:replace="common/header :: styles"></style>
+    <body>
+
+        <div th:replace="common/header :: navbar"></div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col text-start">
+                    <button type="button" class="btn btn-sm csea-bg text-light" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                        Manage Event
+                    </button>
+                </div>
+                <div class="col text-end">
+                    <button class="btn btn-sm" onclick="">
+                        <i class="fa fa-refresh"></i>
+                    </button>
+                </div>
+            </div>
+            <hr>
+        </div>
+
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Manage Event</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-floating mb-3">
+                            <input type="email" class="form-control" id="eventTitle" placeholder="name@example.com" th:value="${eventTitle}">
+                            <label for="eventTitle">Event Name</label>
+                        </div>
+                        <h6>Registration Details</h6>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-floating mb-3">
+                                    <input type="date" class="form-control" id="startDate" placeholder="01/01/2021">
+                                    <label for="startDate">Regn. Start Date</label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-floating mb-3">
+                                    <input type="date" class="form-control" id="endDate" placeholder="01/01/2021">
+                                    <label for="endDate">Regn. End Date</label>
+                                </div>
+                            </div>
+                        </div>
+                        <h6>Academic Year</h6>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-floating mb-3">
+                                    <input type="number" class="form-control" id="aStartYear" min="2020" oninput="changeAcademicYear()" placeholder="Ex: 2021">
+                                    <label for="aStartYear">Academic Start</label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-floating mb-3">
+                                    <input type="number" class="form-control bg-transparent" min="2020" id="aEndYear" placeholder="2022" readonly>
+                                    <label for="aEndYear">Academic End</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="number" max="10" min="1" value="1" class="form-control" id="teamSize" placeholder="2022">
+                            <label for="teamSize">Team Size</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-sm csea-bg text-light" onclick="addEvent()">Save Changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </body>
+    <script th:replace="common/header :: script"></script>
+    <script>
+
+        var currentDate = new Date();
+        var currentYear = currentDate.getFullYear();
+        _("aStartYear").value = currentYear;
+        _("aStartYear").max = currentYear;
+        changeAcademicYear();
+
+        function addEvent() {
+            var eventName = _("eventTitle").value;
+            var regStart = _("startDate").value;
+            var regEnd = _("endDate").value;
+            var acadStart = _("aStartYear").value;
+            var acadEnd = _("aEndYear").value;
+            var teamSize = _("teamSize").value;
+
+            if (isEmpty(eventName) || isEmpty(regStart) || isEmpty(regEnd) || isEmpty(acadStart) || isEmpty(acadEnd) || isEmpty(teamSize)) {
+                printError("Mandatory fields Missing");
+            } else {
+
+            }
+        }
+
+        function changeAcademicYear() {
+            var acadStart = _("aStartYear").value;
+            var acadEnd = parseInt(acadStart) + 1;
+            _("aEndYear").value = acadEnd;
+        }
+    </script>
+</html>

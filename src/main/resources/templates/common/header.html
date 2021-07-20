@@ -3,7 +3,7 @@
 
 <head th:fragment="header">
     <meta charset="UTF-8">
-    <title>CSEA Admin - DashBoard</title>
+    <title th:text="${title}">CSEA Admin - DashBoard</title>
     <link rel = "icon" href ="TCE.png" type = "image/x-icon">
     <!--Bootstrap files-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -69,4 +69,19 @@
         </ul>
     </div>
 </body>
+<script th:fragment="script">
+
+    function _(el) {
+        return document.getElementById(el);
+    }
+
+    function isEmpty(input) {
+        return input == "" || input.length == 0;
+    }
+
+    function printError(message) {
+        console.error(message);
+    }
+
+</script>
 </html>

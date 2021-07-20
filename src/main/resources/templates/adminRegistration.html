@@ -92,7 +92,7 @@
                     var eventNames = data;
                     var eventData = '';
                     for (let i in eventNames) {
-                        eventData += '<div class="col-md-3" style="margin-top: 10px;"><div class="card shadow-sm"><div class="card-body fw-bolder csea-text align-items-center d-flex justify-content-center" style="height: 100px;">' + eventNames[i].name + '</div><div class="card-footer bg-transparent text-end form-inline"><a class="btn" href="/api/v1/admin/registration/' + eventNames[i].url + '"><i class="fa fa-cog fa-1x"></i></a></div></div></div>';
+                        eventData += '<div class="col-md-3" style="margin-top: 10px;"><div class="card shadow-sm"><div class="card-body fw-bolder csea-text align-items-center d-flex justify-content-center" style="height: 100px;">' + eventNames[i].name + '</div><div class="card-footer bg-transparent text-end form-inline"><a class="btn" href="registration/' + eventNames[i].url + '"><i class="fa fa-cog fa-1x"></i></a></div></div></div>';
                     }
 
                     _("eventData").innerHTML = eventData;
