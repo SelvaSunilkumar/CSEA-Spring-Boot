@@ -1,6 +1,8 @@
 package com.example.demo.dao;
 
 import com.example.demo.modal.AdminDetails;
+import com.example.demo.modal.EventDetails;
+import com.example.demo.modal.EventDetailsView;
 import com.example.demo.modal.Events;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -19,6 +21,9 @@ public class AdminOperationImplementer implements AdminOperation {
 
     @Autowired
     EventsDao erepo;
+
+    @Autowired
+    EventDetailsDao eventDetailsRepo;
 
     @Override
     public int addAdmin(UUID uuid, AdminDetails adminDetails) {
@@ -60,6 +65,18 @@ public class AdminOperationImplementer implements AdminOperation {
     }
 
     @Override
+    public int addEventDetails(UUID uuid, EventDetails eventDetails) {
+        if (eventDetailsRepo.isEventDetailPresent(eventDetails.getEventId(), eventDetails.getEventName(), eventDetails.getAcademicStart(), eventDetails.getAcademicEnd()) > 0) {
+            return 404;
+        }
+        eventDetailsRepo.save(eventDetails);
+        if (eventDetailsRepo.isEventDetailPresent(eventDetails.getEventId(), eventDetails.getEventName(), eventDetails.getAcademicStart(), eventDetails.getAcademicEnd()) > 0) {
+            return 200;
+        }
+        return 107;
+    }
+
+    @Override
     public String encryptPassword(String password) {
         try {
             MessageDigest messageDigest = MessageDigest.getInstance("SHA-1");
@@ -84,5 +101,10 @@ public class AdminOperationImplementer implements AdminOperation {
     @Override
     public List<Events> getAllEvents() {
         return erepo.findAll();
+    }
+
+    @Override
+    public List<EventDetails> getAllEventsDetailsView(String eventId) {
+        return eventDetailsRepo.getAllEventDetailsView(eventId);
     }
 }

@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.dao.AdminOperation;
 import com.example.demo.modal.AdminDetails;
+import com.example.demo.modal.EventDetails;
 import com.example.demo.modal.Events;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -43,11 +44,19 @@ public class AdminService {
         return adminOperation.addEvent(events);
     }
 
+    public int addEventDetails(EventDetails eventDetails) {
+        return adminOperation.addEventDetails(eventDetails);
+    }
+
     public List<AdminDetails> getAllAdmins() {
         return adminOperation.getAllAdmins();
     }
 
     public List<Events> getAllEvents() {
         return adminOperation.getAllEvents();
+    }
+
+    public List<EventDetails> getAllEventDetailsView(String eventId) {
+        return adminOperation.getAllEventsDetailsView(eventId);
     }
 }

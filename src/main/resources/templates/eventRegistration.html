@@ -16,16 +16,59 @@
                     </button>
                 </div>
                 <div class="col text-end">
-                    <button class="btn btn-sm" onclick="">
+                    <button class="btn btn-sm" onclick="refresh()">
                         <i class="fa fa-refresh"></i>
                     </button>
                 </div>
             </div>
             <hr>
+            <p id="loader">fetching...</p>
+            <div class="row" id="eventData">
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-header bg-transparent text-center">
+                            <h6 class="csea-text">Android Development 2021-21</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col text-center csea-text">
+                                    <strong>Open on</strong><br>
+                                    22/01/2021
+                                </div>
+                                <div class="col text-center csea-text">
+                                    <strong>Close on</strong><br>
+                                    22/01/2021
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-transparent csea-text">
+                            <div class="collapse" id="collapseExample">
+                                
+                                <div class="card card-body">
+                                    <strong>Description</strong>
+                                    <br> 
+                                    <label>Description for the particular Event will be displayed over here.</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <button class="btn btn-sm"><i class="fa fa-cog"></i></button>
+                                    <button class="btn btn-sm"><i class="fa fa-external-link"></i></button>
+                                </div>
+                                <div class="col text-end">
+                                    <button class="btn btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                        <i class="fa fa-info"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="staticBackdropLabel">Manage Event</h5>
@@ -35,6 +78,11 @@
                         <div class="form-floating mb-3">
                             <input type="email" class="form-control" id="eventTitle" placeholder="name@example.com" th:value="${eventTitle}">
                             <label for="eventTitle">Event Name</label>
+                        </div>
+                        <h6>Registration Description</h6>
+                        <div class="form-floating mb-3">
+                            <textarea class="form-control" placeholder="Leave a Description for understanding" id="description" style="height: 100px"></textarea>
+                            <label for="description">Description</label>
                         </div>
                         <h6>Registration Details</h6>
                         <div class="row">
@@ -81,7 +129,11 @@
 
     </body>
     <script th:replace="common/header :: script"></script>
-    <script>
+    <script th:inline="javascript">
+
+        onload = function() {
+            getEventDetails();
+        }
 
         var currentDate = new Date();
         var currentYear = currentDate.getFullYear();
@@ -89,18 +141,122 @@
         _("aStartYear").max = currentYear;
         changeAcademicYear();
 
+        var eventId = [[${eventName}]];
+
+        //alert(eventTitle);
+
+        function getEventDetails() {
+            $.ajax({
+                url: "/api/v1/admin/events/" + eventId,
+                type: "GET",
+                async: false,
+                beforeSend: function() {
+                    _("loader").style.display = "block";
+                }, success:function(data) {
+                    _("loader").style.display = "none";
+
+                    console.log(data);
+
+                    var event = data;
+                    var eventData = '';
+                    for (let i in event) {
+                        eventData += '<div class="col-md-3"><div class="card">';
+                            eventData += '<div class="card-header bg-transparent text-center"><h6 class="csea-text">' + event[i].eventName + ' ' + event[i].academicYear + '</h6></div>';
+                                eventData += '<div class="card-body">';
+                                    eventData += '<div class="row">';
+                                        eventData += '<div class="col text-center csea-text">';
+                                            eventData += '<strong>Open on</strong><br>' + event[i].registrationOpen;
+                                        eventData += '</div>';
+                                        eventData += '<div class="col text-center csea-text">';
+                                            eventData += '<strong>Close on</strong><br>' + event[i].registrationClose;
+                                        eventData += '</div>';
+                                    eventData += '</div>';
+                            eventData += '</div>';
+                            eventData += '<div class="card-footer bg-transparent csea-text">';
+                                eventData += '<div class="collapse" id="collapse'+i+'">';
+                                    eventData += '<div class="card card-body">';
+                                        eventData += '<strong>Description</strong><br>';
+                                        eventData += '<label>'+ event[i].description +'</label>';
+                                    eventData += '</div>';
+                                eventData += '</div>';
+                                eventData += '<div class="row">';
+                                    eventData += '<div class="col">';
+                                        eventData += '<button class="btn btn-sm"><i class="fa fa-cog"></i></button>';
+                                        eventData += '<button class="btn btn-sm"><i class="fa fa-external-link"></i></button>';
+                                        eventData += '<button class="btn btn-sm"><i class="fa fa-share"></i></button>';
+                                    eventData += '</div>';
+                                    eventData += '<div class="col text-end">';
+                                        eventData += '<button class="btn btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapse'+i+'" aria-expanded="false" aria-controls="collapse'+i+'">';
+                                            eventData += '<i class="fa fa-info"></i>';
+                                        eventData += '</button>';
+                                    eventData += '</div>';
+                                eventData += '</div>';
+                            eventData += '</div>';
+                        eventData += '</div></div>';
+                    }
+
+                    _("eventData").innerHTML = eventData;
+
+                }, error:function() {
+                    console.error("Error occured");
+                }
+            });
+        }
+
+        function operationStatus(status) {
+            switch(status) {
+                case 404:
+                    printError("Username already taken");
+                    break;
+                case 107:
+                    printError("Failed");
+                    break;
+                case 200:
+                    printError("ok");
+                    getEventDetails();
+                    break;
+                case 301:
+                    printError("Special characters are not allowed. Including space");
+                    break;
+                default:
+                    printError("Error Unknown");
+                    break;
+            }
+        }
+
+        function refresh() {
+            getEventDetails();
+        }
+
         function addEvent() {
             var eventName = _("eventTitle").value;
+            var description = _("description").value;
             var regStart = _("startDate").value;
             var regEnd = _("endDate").value;
             var acadStart = _("aStartYear").value;
             var acadEnd = _("aEndYear").value;
             var teamSize = _("teamSize").value;
 
-            if (isEmpty(eventName) || isEmpty(regStart) || isEmpty(regEnd) || isEmpty(acadStart) || isEmpty(acadEnd) || isEmpty(teamSize)) {
+            if (isEmpty(eventName) || isEmpty(description) || isEmpty(regStart) || isEmpty(regEnd) || isEmpty(acadStart) || isEmpty(acadEnd) || isEmpty(teamSize)) {
                 printError("Mandatory fields Missing");
             } else {
-
+                acadEnd = acadEnd % 100;
+                var eventDetails = {"eventId" : eventId, "eventName" : eventName, "description" : description, "registrationStart" : regStart, "registrationEnd" : regEnd, "academicStart" : acadStart, "academicEnd" : acadEnd, "teamSize" : teamSize};
+                $.ajax({
+                    url : "/api/v1/admin/event/registration",
+                    type : "POST",
+                    data : JSON.stringify(eventDetails),
+                    async : false,
+                    contentType: 'application/json',
+                    beforeSend:function() {
+                        console.log("Called");
+                    },
+                    success:function(data) {
+                        operationStatus(data);
+                    },error:function() {    
+                        console.error("Error occured");
+                    }
+                });
             }
         }
 

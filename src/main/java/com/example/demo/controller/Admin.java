@@ -1,9 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.modal.AdminCustomDetails;
-import com.example.demo.modal.AdminDetails;
-import com.example.demo.modal.Events;
-import com.example.demo.modal.EventsURLDetails;
+import com.example.demo.modal.*;
 import com.example.demo.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -63,9 +60,31 @@ public class Admin {
         return urlDetails;
     }
 
+    @PostMapping("event/registration")
+    public int manageEvent(@RequestBody EventDetails eventDetails) {
+        if (adminService.isValidEventString(eventDetails.getEventName())) {
+            return 301;
+        }
+        eventDetails.setEventId(eventDetails.getEventId().replace("-"," "));
+        return adminService.addEventDetails(eventDetails);
+    }
+
     @GetMapping("registration/{id}")
     public String getCustom(@PathVariable("id") String eventId) {
         return eventId.replace('-', ' ');
+    }
+
+    @GetMapping("events/{id}")
+    public List<EventDetailsView> getEventDetailsView(@PathVariable("id") String eventId) {
+        eventId = eventId.replace("-", " ");
+        List<EventDetails> eventDetails = adminService.getAllEventDetailsView(eventId);
+        List<EventDetailsView> eventDetailsViews = new ArrayList<>();
+        for (int iterator = 0; iterator < eventDetails.size(); iterator++) {
+            EventDetails details = eventDetails.get(iterator);
+            String academicYear = details.getAcademicStart() + "-" + details.getAcademicEnd();
+            eventDetailsViews.add(new EventDetailsView(details.getEventId(), details.getEventName(), academicYear, details.getDescription(), details.getRegistrationStart(), details.getRegistrationEnd(), details.getTeamSize()));
+        }
+        return eventDetailsViews;
     }
 
 }

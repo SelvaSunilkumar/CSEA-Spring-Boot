@@ -1,8 +1,17 @@
 package com.example.demo.modal;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class EventDetails {
+    @Id
+    private String id;
     private String eventId;
     private String eventName;
+    private String description;
     private String registrationStart;
     private String registrationEnd;
     private String academicStart;
@@ -13,14 +22,24 @@ public class EventDetails {
 
     }
 
-    public EventDetails(String eventId, String eventName, String registrationStart, String registrationEnd, String academicStart, String academicEnd, int teamSize) {
+    public EventDetails(@JsonProperty("id") String id, @JsonProperty("eventId") String eventId, @JsonProperty("eventName") String eventName, @JsonProperty("description") String description, @JsonProperty("registrationStart") String registrationStart, @JsonProperty("registrationEnd") String registrationEnd, @JsonProperty("academicStart") String academicStart, @JsonProperty("academicEnd") String academicEnd, @JsonProperty("teamSize") int teamSize) {
+        this.id = id;
         this.eventId = eventId;
         this.eventName = eventName;
+        this.description = description;
         this.registrationStart = registrationStart;
         this.registrationEnd = registrationEnd;
         this.academicStart = academicStart;
         this.academicEnd = academicEnd;
         this.teamSize = teamSize;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getEventId() {
@@ -37,6 +56,14 @@ public class EventDetails {
 
     public void setEventName(String eventName) {
         this.eventName = eventName;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getRegistrationStart() {
