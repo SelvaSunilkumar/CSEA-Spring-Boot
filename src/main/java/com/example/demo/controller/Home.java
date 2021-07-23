@@ -41,4 +41,11 @@ public class Home {
         return "eventRegistration";
     }
 
+    @GetMapping("/registration/{academicYear}/{eventId}")
+    public String eventRegistration(Model model, @PathVariable("academicYear") String academicYear, @PathVariable("eventId") String eventId) {
+        model.addAttribute("academicYear", academicYear);
+        model.addAttribute("eventId", eventId);
+        return "registration";
+    }
+
 }

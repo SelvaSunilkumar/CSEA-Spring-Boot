@@ -34,6 +34,8 @@ public interface AdminOperation {
         return addEventDetails(id, eventDetails);
     }
 
+    EventDetails getEventInfo(String eventId, String academicStart, String academicEnd);
+
     String encryptPassword(String password);
 
     List<AdminDetails> getAllAdmins();

@@ -50,21 +50,21 @@
 
         <ul class="nav justify-content-center fw-bolder">
             <li class="nav-item">
-                <a href="manage-admin" th:if="${access} == 1" class="nav-link csea-text bottom-u" aria-current="page">Manage Admin</a>
-                <a href="manage-admin" th:if="${access} != 1" class="nav-link csea-text" aria-current="page">Manage Admin</a>
+                <a href="/csea/manage-admin" th:if="${access} == 1" class="nav-link csea-text bottom-u" aria-current="page">Manage Admin</a>
+                <a href="/csea/manage-admin" th:if="${access} != 1" class="nav-link csea-text" aria-current="page">Manage Admin</a>
             </li>
             <li class="nav-item">
-                <a href="registration" th:if="${access} == 2" class="nav-link csea-text bottom-u" aria-current="page">Registration</a>
-                <a href="registration" th:if="${access} != 2" class="nav-link csea-text" aria-current="page">Registration</a>
+                <a href="/csea/registration" th:if="${access} == 2" class="nav-link csea-text bottom-u" aria-current="page">Registration</a>
+                <a href="/csea/registration" th:if="${access} != 2" class="nav-link csea-text" aria-current="page">Registration</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link csea-text" href="b">Certificate</a>
+                <a class="nav-link csea-text" href="/csea/b">Certificate</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link csea-text" href="c">Register List</a>
+                <a class="nav-link csea-text" href="/csea/c">Register List</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link csea-text" href="f">Logout</a>
+                <a class="nav-link csea-text" href="/csea/l">Logout</a>
             </li>
         </ul>
     </div>

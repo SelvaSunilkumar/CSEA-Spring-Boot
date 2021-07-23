@@ -48,6 +48,14 @@ public class AdminService {
         return adminOperation.addEventDetails(eventDetails);
     }
 
+    public EventDetails getEventInfo(String eventId, String academicYear) {
+        eventId = eventId.replace("-", " ");
+        String[] academicYears = academicYear.split("-");
+        String academicStart = academicYears[0];
+        String academicEnd = academicYears[1];
+        return adminOperation.getEventInfo(eventId, academicStart, academicEnd);
+    }
+
     public List<AdminDetails> getAllAdmins() {
         return adminOperation.getAllAdmins();
     }

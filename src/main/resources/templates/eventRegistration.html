@@ -160,7 +160,7 @@
                     var event = data;
                     var eventData = '';
                     for (let i in event) {
-                        eventData += '<div class="col-md-3"><div class="card">';
+                        eventData += '<div class="col-md-3"><div class="card shadow-sm">';
                             eventData += '<div class="card-header bg-transparent text-center"><h6 class="csea-text">' + event[i].eventName + ' ' + event[i].academicYear + '</h6></div>';
                                 eventData += '<div class="card-body">';
                                     eventData += '<div class="row">';
@@ -182,7 +182,7 @@
                                 eventData += '<div class="row">';
                                     eventData += '<div class="col">';
                                         eventData += '<button class="btn btn-sm"><i class="fa fa-cog"></i></button>';
-                                        eventData += '<button class="btn btn-sm"><i class="fa fa-external-link"></i></button>';
+                                        eventData += '<a href="'+ event[i].academicYear +'/' + eventId + '" class="btn btn-sm"><i class="fa fa-external-link"></i></a>';
                                         eventData += '<button class="btn btn-sm"><i class="fa fa-share"></i></button>';
                                     eventData += '</div>';
                                     eventData += '<div class="col text-end">';

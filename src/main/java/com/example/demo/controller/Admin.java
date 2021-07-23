@@ -87,4 +87,14 @@ public class Admin {
         return eventDetailsViews;
     }
 
+    @GetMapping("eventInfo/{academicYear}/{eventId}")
+    public EventInfo getEventInfo(@PathVariable("eventId") String eventId, @PathVariable("academicYear") String academicYear) {
+        EventDetails eventDetails = adminService.getEventInfo(eventId, academicYear);
+        if (eventDetails == null) {
+            return null;
+        }
+        EventInfo eventInfo = new EventInfo(eventDetails.getEventName(), eventDetails.getDescription(), eventDetails.getRegistrationEnd(), eventDetails.getTeamSize());
+        return eventInfo;
+    }
+
 }

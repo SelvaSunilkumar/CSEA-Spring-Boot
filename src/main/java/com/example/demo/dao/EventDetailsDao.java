@@ -8,9 +8,12 @@ import java.util.List;
 
 public interface EventDetailsDao extends JpaRepository<EventDetails, Integer> {
 
-    @Query(value = "SELECT COUNT(*) FROM event_details e WHERE e.event_id = ?1 AND e.event_name = ?2 AND e.academic_start = ?3 AND e.academic_end = ?4", nativeQuery = true)
-    public int isEventDetailPresent(String eventId, String eventName, String acadStart, String acadEnd);
+    @Query(value = "SELECT COUNT(*) FROM event_details e WHERE e.event_id = ?1 AND e.academic_start = ?2 AND e.academic_end = ?3", nativeQuery = true)
+    public int isEventDetailPresent(String eventId, String acadStart, String acadEnd);
 
     @Query(value = "SELECT * FROM event_details e WHERE e.event_id = ?1", nativeQuery = true)
     List<EventDetails> getAllEventDetailsView(String eventId);
+
+    @Query(value = "SELECT * FROM event_details e WHERE e.event_id = ?1 AND academic_start = ?2 AND academic_end = ?3", nativeQuery = true)
+    EventDetails getEventInfo(String eventDetails, String academicStart, String academicEnd);
 }

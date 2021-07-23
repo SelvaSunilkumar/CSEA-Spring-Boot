@@ -66,11 +66,11 @@ public class AdminOperationImplementer implements AdminOperation {
 
     @Override
     public int addEventDetails(UUID uuid, EventDetails eventDetails) {
-        if (eventDetailsRepo.isEventDetailPresent(eventDetails.getEventId(), eventDetails.getEventName(), eventDetails.getAcademicStart(), eventDetails.getAcademicEnd()) > 0) {
+        if (eventDetailsRepo.isEventDetailPresent(eventDetails.getEventId(), eventDetails.getAcademicStart(), eventDetails.getAcademicEnd()) > 0) {
             return 404;
         }
         eventDetailsRepo.save(eventDetails);
-        if (eventDetailsRepo.isEventDetailPresent(eventDetails.getEventId(), eventDetails.getEventName(), eventDetails.getAcademicStart(), eventDetails.getAcademicEnd()) > 0) {
+        if (eventDetailsRepo.isEventDetailPresent(eventDetails.getEventId(), eventDetails.getAcademicStart(), eventDetails.getAcademicEnd()) > 0) {
             return 200;
         }
         return 107;
@@ -91,6 +91,14 @@ public class AdminOperationImplementer implements AdminOperation {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public EventDetails getEventInfo(String eventId, String academicStart, String academicEnd) {
+        EventDetails eventDetails = eventDetailsRepo.getEventInfo(eventId, academicStart, academicEnd);
+        if (eventDetails == null) {
+            return null;
+        }
+        return eventDetails;
     }
 
     @Override

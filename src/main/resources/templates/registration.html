@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+    <head th:replace="common/header :: header"></head>
+    <style th:replace="common/header :: styles"></style>
+
+    <style>
+        section {
+            padding: 100px 0;
+        }
+    </style>
+    <body style="background-color: #efefef;">
+        <header class="site-header">
+            <nav class="navbar navbar-expand-md navbar-dark csea-bg fixed-top">
+
+                <div class="container">
+          
+                  <a class="navbar-brand mr-4" href="/registration/" data-toggle="popover" title="Back to Home">
+                    <img src="/TCE.png" width="60" alt="">
+                    CSEA
+                  </a>
+                  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle"
+                    aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                  </button>
+          
+                  <div class="collapse navbar-collapse" id="navbarToggle">
+                    <div class="navbar-nav mr-auto">
+                     
+                    </div>
+                    <!-- Navbar Right Side -->
+                    <div class="navbar-nav">
+                      <a class="nav-item nav-link fw-bold" style="color: white;" href="/registration/">Registration</a>
+                      <a class="nav-item nav-link fw-bold" style="color: white;" href="/certificate/">Certificate</a>
+                    
+                    </div>
+                  </div>
+                </div>
+          
+            </nav>
+        </header>
+        <section role="main">
+            <div class="container csea-text">
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8">
+                        <div class="card shadow">
+                            <div class="card-header bg-transparent">
+                                <h5 id="eventName">Event Name</h5>
+                                <hr class="card-bg">
+                                <textarea id="description" class="bg-transparent" style="height: auto; width: 100%; overflow: hidden; outline: none; border: none; resize: none;" readonly></textarea>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="card shadow">
+                            <div class="card-body">
+                                <div class="mb-6">
+                                    <label for="teamName" class="form-label fw-bold csea-text">Team Name <span class="text-danger">*</span> </label>
+                                    <input type="text" class="form-control fw-" id="teamName">
+                                </div>
+                                <br>
+                                <div class="mb-6">
+                                    <label for="name" class="form-label fw-bold csea-text">Name <span class="text-danger">*</span> </label>
+                                    <input type="text" class="form-control fw-" id="name">
+                                </div>
+                                <br>
+                                <div class="row md-3">
+                                    <div class="col-sm-6">
+                                        <label for="regno" class="form-label fw-bold csea-text">Registration No <span class="text-danger">*</span> </label>
+                                        <input type="text" class="form-control" id="regno">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="emailid" class="form-label fw-bold csea-text">Email Id <span class="text-danger">*</span> </label>
+                                        <input type="email" class="form-control" id="emailid">
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="mb-6">
+                                    <label for="phoneNo" class="form-label fw-bold csea-text">Phone No <span class="text-danger">*</span> </label>
+                                    <input type="text" class="form-control" id="phoneNo">
+                                </div>
+                                <br>
+                                <div class="mb-6">
+                                    <label for="department" class="form-label fw-bold csea-text">Department <span class="text-danger">*</span> </label>
+                                    <select class="form-control" id="department">
+                                        <option class="fw-bold" value="0" selected disabled>-- SELECT DEPARTMENT --</option>
+                                        <option value="1">Computer Science and Engineering</option>
+                                        <option value="2">Information Technology</option>
+                                        <option value="3">Electrical and Communication Engineering</option>
+                                        <option value="4">Data Science</option>
+                                        <option value="5">Computer Applications</option>
+                                        <option value="6">Electrical and Electronics Engineering</option>
+                                        <option value="7">Mechanical Engineering</option>
+                                        <option value="8">Mechatronics</option>
+                                        <option value="9">Civil Engineering</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div id="display"></div>
+                        <div class="text-right">
+                            <button class="btn fw-bold btn-outline-success">Register</button>
+                        </div>
+                    </div>
+                    <div class="col-md-2"></div>
+                </div>
+            </div>
+
+            <div class="position-fixed bottom-0 end-0" style="z-index: 11">
+
+                <div id="success" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header bg-transparent">
+                        <img src="/TCE.png" class="rounded me-2" height="15px" alt="...">
+                        <strong class="me-auto">TCE CSEA</strong>
+                    
+                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body">
+                        Registered Successfully
+                    </div>
+                </div>
+
+                <div id="missing" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header bg-transparent">
+                        <img src="/TCE.png" class="rounded me-2" height="15px" alt="...">
+                        <strong class="me-auto">TCE CSEA</strong>
+                    
+                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body">
+                        Missing mandatory fields. Please fill to continue registration
+                    </div>
+                </div>
+
+                <div id="error" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header bg-transparent">
+                        <img src="/TCE.png" class="rounded me-2" height="15px" alt="...">
+                        <strong class="me-auto">TCE CSEA</strong>
+                    
+                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body">
+                        Error Occured, please try again. If repeats again contact GS/JS
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+    </body>
+    <script>
+
+        function _(el) {
+            return document.getElementById(el);
+        }
+
+        $(document).ready(function(){
+            $('#error').toast('show');
+            $('#success').toast('show');
+            $('#missing').toast('show');
+        });
+
+        onload = function() {
+            getEventDetails();
+        }
+
+        function displayName(id) {
+            var htmlCode = '<div class="mb-6"><label for="name' + id + '" class="form-label fw-bold csea-text">Name <span class="text-danger">*</span> </label><input type="text" class="form-control fw-" id="name' + id +'"></div><br>';
+            return htmlCode;
+        }
+
+        function displayRegistrationNo(id) {
+            var htmlCode = '<div class="col-md-6"><label for="regno'+id+'" class="form-label fw-bold csea-text">Registration No <span class="text-danger">*</span> </label><input type="text" class="form-control" id="regno'+id+'"></div>';
+            return htmlCode;
+        }
+
+        function displayDepartment(id) {
+            var htmlCode = '<div class="col-md-6">';
+                htmlCode += '<label for="department'+id+'" class="form-label fw-bold csea-text">Department <span class="text-danger">*</span> </label>';
+                htmlCode += '<select class="form-control" id="department'+id+'">';
+                    htmlCode += '<option class="fw-bold" value="0" selected disabled>-- SELECT DEPARTMENT --</option>';
+                    htmlCode += '<option value="1">Computer Science and Engineering</option>';
+                    htmlCode += '<option value="2">Information Technology</option>';
+                    htmlCode += '<option value="3">Electrical and Communication Engineering</option>';
+                    htmlCode += '<option value="4">Data Science</option>';
+                    htmlCode += '<option value="5">Computer Applications</option>';
+                    htmlCode += '<option value="6">Electrical and Electronics Engineering</option>';
+                    htmlCode += '<option value="7">Mechanical Engineering</option>';
+                    htmlCode += '<option value="8">Mechatronics</option>';
+                    htmlCode += '<option value="9">Civil Engineering</option>';
+                htmlCode += '</select>';
+            htmlCode += '</div>';
+            return htmlCode;
+        }
+
+        function display(event) {
+            var htmlCode = '';
+            for (var i=1; i < event.teamSize; i++) {
+                htmlCode += '<div class="card shadow">';
+                    htmlCode += '<div class="card-header bg-transparent">';
+                        htmlCode += '<h6>Team Member '+(i+1)+'</h6>';
+                    htmlCode += '</div>';
+                    htmlCode += '<div class="card-body">';
+                        htmlCode += displayName(i);
+                        htmlCode += '<div class="row">';
+                            htmlCode += displayRegistrationNo(i);
+                            htmlCode += displayDepartment(i);
+                        htmlCode += '</div>';
+                    htmlCode += '</div>';
+                htmlCode += '</div><br>';
+            }
+            _("display").innerHTML = htmlCode;
+        }
+
+        function getEventDetails() {
+            $.ajax({
+                url : "/api/v1/admin/eventInfo/[[${academicYear}]]/[[${eventId}]]",
+                type : "GET",
+                async: false,
+                beforeSend: function() {
+
+                }, success: function(data) {
+                    var eventInfo = data;
+                    _("eventName").innerHTML = eventInfo.eventName;
+                    _("description").value = eventInfo.description;
+                    var description = _("description");
+                    description.style.height = description.scrollHeight + 'px';
+
+                    if (eventInfo.teamSize > 1) {
+                        display(eventInfo);
+                    }
+                }, error:function() {
+                    console.error("error occured");
+                    $('#error').toast('show');
+                }
+            });
+        }
+
+    </script>
+</html>
